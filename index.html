@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Hat Game</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="resources/css/style.css">
+    </head>
+    <body>
+        <h1>Find Yeh Frikkin Hat!</h1>
+        <div id="setupDiv">
+            <h2>Setup</h2>
+            <p>Please enter a height and width:</p>
+            <label for="height" value="height">Height</label>
+            <input type="number" id="height" value="10" max="40" min="10"/>
+            <label for="width" value="width">Width</label>
+            <input type="number" id="width" value="20" max="40" min="10"/>
+            <p>Please enter a difficulty level (1-20)</p>
+            <label for="difficulty" value="difficulty">Difficulty</label>
+            <input type="number" id="difficulty" value="10" min="0" max="20" />
+            <input type="button" value="Start" id="start" />
+        </div>
+        <div id="announcementDiv"></div>
+        <div id="controlDiv">
+            <div id="buttonDiv">
+                <input type="button" id="up" value="Up" />
+                <input type="button" id="left" value="Left" />
+                <input type="button" id="right" value="Right" />
+                <input type="button" id="down" value="Down" />
+            </div>
+            <input type="button" id="reset" value ="Reset" />
+        </div>
+        <div id="fieldDiv"></div>
+ 
+        
+        <script src="index.js" async defer></script>
+    </body>
+</html>
