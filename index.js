@@ -57,7 +57,8 @@ class Field {
         let fieldVisual = document.createElement('div');
         fieldVisual.style.width = width*50 + "px";
         fieldVisual.style.height = height*50 + "px";
-        fieldVisual.style.backgroundColor = "green";
+        fieldVisual.style.backgroundImage = "url('https://media.giphy.com/media/cjojgtiigyloyCg3r9/source.gif')";
+        fieldVisual.style.borderRadius = "10px";
         fieldVisual.style.position = "relative";
         fieldVisual.id = "fieldVisual";
         fieldDiv.append(fieldVisual);
