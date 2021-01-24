@@ -13,8 +13,8 @@ h1 {
 
 #controlDiv {
     position: fixed;
-    top: 200px;
-    right: 200px;
+    bottom: 200px;
+    left: 200px;
     border: 5px blue solid;
     z-index: 3;
     display: none;
