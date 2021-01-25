@@ -143,6 +143,7 @@ class Field {
     }
 
     static endGame() {
+        this.displayScore();
         document.getElementById("buttonDiv").style.display = "none";
         document.getElementById("reset").style.display = "block";
     }
@@ -156,13 +157,13 @@ class Field {
         newPos = newPos.toString() +"px";
         console.log(newPos);
         document.getElementById("man").style.top = newPos;
+        score -= 50;
         Field.checkPos();
     }
 
     static left() {
         let manPos = document.getElementById("man").style.left;
         let newPos = Number(manPos.substring(0, manPos.length - 2));
-        newPos -= 50;
         console.log(newPos);
         newPos = newPos.toString() +"px";
         console.log(newPos);
@@ -182,6 +183,7 @@ class Field {
         newPos = newPos.toString() +"px";
         console.log(newPos);
         document.getElementById("man").style.left = newPos;
+        score +=50
         Field.checkPos();
     }
 
@@ -193,6 +195,7 @@ class Field {
         newPos = newPos.toString() +"px";
         console.log(newPos);
         document.getElementById("man").style.top = newPos;
+        score +=50;
         Field.checkPos();
     }
 
@@ -236,7 +239,15 @@ class Field {
         
     }
 
+    static displayScore() {
+        if (score <= 0) score = 0;
+        let scoreDis = document.createElement('p');
+        scoreDis.textContent = `Score: ${score} points`;
+        announcementDiv.appendChild(scoreDis);
+    }
+
     static checkPos() {
+        score -= 25;
         Field.updateHoleCoords();
         let manPosY = document.getElementById("man").style.top;
         let manPosX = document.getElementById("man").style.left;
@@ -255,11 +266,13 @@ class Field {
 
         console.log("hole coords", holeArrayXY[0]);
         if (manPosY == hatPosY && manPosX == hatPosX) {
+            score += 150;
             document.getElementById("announcementDiv").innerText = "Congratulations! You feast on delicious earthling!";
             document.getElementById("earth").src = "resources/images/explosion1.gif";
             Field.endGame();
         }
         if (manPosY < 0 || manPosX < 0 || manPosY >= fieldHeight || manPosX >= fieldWidth) {
+            score -= 150;
             document.getElementById("announcementDiv").innerText = "You've been swept into the cosmic undertow and torn to pieces!";
             document.getElementById("ufo").src = "resources/images/explosion1.gif";
             Field.endGame();
@@ -268,6 +281,7 @@ class Field {
             let holePosX = holeArrayXY[XYpair][0];
             let holePosY = holeArrayXY[XYpair][1];
             if (manPosX == holePosX && manPosY == holePosY) {
+                score -= 150;
                 document.getElementById("announcementDiv").innerText = "You smashed into an asteroid and broke all your bones!";    
                 document.getElementById("ufo").src = "resources/images/explosion1.gif";
                 Field.endGame();
