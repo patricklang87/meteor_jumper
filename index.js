@@ -62,6 +62,15 @@ class Field {
         fieldVisual.style.position = "relative";
         fieldVisual.id = "fieldVisual";
         fieldDiv.append(fieldVisual);
+        let earth = document.createElement('img');
+        earth.src = "resources/images/earth.gif";
+        earth.style.height = "250px";
+        earth.style.width = "250px";
+        earth.style.position = "absolute";
+        earth.style.top = (height*50)/2 - 125 + "px";
+        earth.style.left = (width*50) + 50 + "px";
+        earth.id = "earth";
+        fieldVisual.appendChild(earth);
 
         for (let y = 0; y <this.field.length; y++) {
             for (let x = 0; x < this.field[0].length; x++) {
@@ -249,6 +258,7 @@ class Field {
         console.log("hole coords", holeArrayXY[0]);
         if (manPosY == hatPosY && manPosX == hatPosX) {
             document.getElementById("announcementDiv").innerText = "Congratulations! Delicious earthling!";
+            document.getElementById("earth").src = "resources/images/explosion1.gif";
             Field.endGame();
         }
         if (manPosY < 0 || manPosX < 0 || manPosY >= fieldHeight || manPosX >= fieldWidth) {
@@ -270,12 +280,12 @@ class Field {
     static startGame() {
         let gameField = new Field(Field.fieldFromInput());
         gameField.print();
-        gameField.generateBrowserField();
+        gameField.generateBrowserField();        
         document.getElementById("controlDiv").style.display = "block";
         document.getElementById("buttonDiv").style.display = "block";
         document.getElementById("setupDiv").style.display = "none";
         document.getElementById("announcementDiv").style.display = "block";
-        document.getElementById("announcementDiv").textContent = "Find and devour the devour the foolish earthling!";
+        document.getElementById("announcementDiv").textContent = "Find and devour the foolish earthling!";
     }
     
 }
