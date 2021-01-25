@@ -23,8 +23,8 @@ class Field {
 
         field[0][0] = man;
 
-        let hatX = width - 2;
-        let hatY = Math.floor(Math.random()*height);
+        let hatX = Math.floor(Math.random()*width);
+        let hatY = height - 2;
 
         field[hatY][hatX] = hat;
 
@@ -58,19 +58,14 @@ class Field {
         fieldVisual.style.width = width*50 + "px";
         fieldVisual.style.height = height*50 + "px";
         //fieldVisual.style.backgroundImage = "url('https://media.giphy.com/media/cjojgtiigyloyCg3r9/source.gif')";
+        fieldVisual.style.marginLeft = "auto";
+        fieldVisual.style.marginRight = "auto";
         fieldVisual.style.borderRadius = "10px";
         fieldVisual.style.position = "relative";
         fieldVisual.id = "fieldVisual";
         fieldDiv.append(fieldVisual);
-        let earth = document.createElement('img');
-        earth.src = "resources/images/earth.gif";
-        earth.style.height = "250px";
-        earth.style.width = "250px";
-        earth.style.position = "absolute";
-        earth.style.top = (height*50)/2 - 125 + "px";
-        earth.style.left = (width*50) + 50 + "px";
-        earth.id = "earth";
-        fieldVisual.appendChild(earth);
+
+        document.getElementById("earth").style.display = "block";
 
         for (let y = 0; y <this.field.length; y++) {
             for (let x = 0; x < this.field[0].length; x++) {
@@ -141,6 +136,8 @@ class Field {
         document.getElementById("announcementDiv").style.display = "none";
         document.getElementById("controlDiv").style.display = "none";
         document.getElementById("setupDiv").style.display= "block";
+        document.getElementById("earth").src = "resources/images/earth.gif";
+        document.getElementById("earth").style.display = "none";
     }
 
     static endGame() {
@@ -187,7 +184,7 @@ class Field {
         Field.checkPos();
     }
 
-    static jump() {
+    static down() {
         let manPos = document.getElementById("man").style.top;
         let newPos = Number(manPos.substring(0, manPos.length - 2));
         newPos += 50;
@@ -220,19 +217,19 @@ class Field {
             let child = fieldVisChildren[i];
             console.log("chilren: ", child.classList);
             if (child.classList[0] == "hole") {
-                let holePosY = child.style.top;
-                holePosY = Number(holePosY.substring(0, holePosY.length-2));
-                holePosY -= 50;
-                if (holePosY < 0) {
-                    console.log("holePosY too low: ", holePosY);
-                    let fieldVisHeight = fieldVisual.style.height;
-                    fieldVisHeight = Number(fieldVisHeight.substring(0, fieldVisHeight.length-2));
-                    fieldVisHeight -= 50;
-                    holePosY = fieldVisHeight;
-                    console.log("new holePosY: ", holePosY);
+                let holePosX = child.style.left;
+                holePosX = Number(holePosX.substring(0, holePosX.length-2));
+                holePosX -= 50;
+                if (holePosX < 0) {
+                    console.log("holePosY too low: ", holePosX);
+                    let fieldVisWidth = fieldVisual.style.width;
+                    fieldVisWidth = Number(fieldVisWidth.substring(0, fieldVisWidth.length-2));
+                    fieldVisWidth -= 50;
+                    holePosX = fieldVisWidth;
+                    console.log("new holePosX: ", holePosX);
                 }
-                let newHolePosY = `${holePosY}px`;
-                child.style.top = newHolePosY;
+                let newHolePosX = `${holePosX}px`;
+                child.style.left = newHolePosX;
             }
         }
         
@@ -263,6 +260,7 @@ class Field {
         }
         if (manPosY < 0 || manPosX < 0 || manPosY >= fieldHeight || manPosX >= fieldWidth) {
             document.getElementById("announcementDiv").innerText = "You've been swept into the comic undertow torn to pieces!";
+            document.getElementById("ufo").src = "resources/images/explosion1.gif";
             Field.endGame();
         }
         for (let XYpair = 0; XYpair < holeArrayXY.length; XYpair++) {
@@ -296,9 +294,9 @@ class Field {
 
 document.getElementById("start").addEventListener("click", Field.startGame);
 document.getElementById("up").addEventListener("click", Field.up);
-document.getElementById("right").addEventListener("click", Field.right);
+document.getElementById("down").addEventListener("click", Field.down);
 document.getElementById("hold").addEventListener("click", Field.hold);
 document.getElementById("left").addEventListener("click", Field.left);
-document.getElementById("jump").addEventListener("click", Field.jump);
+document.getElementById("right").addEventListener("click", Field.right);
 document.getElementById("reset").addEventListener("click", Field.reset);
 //window.addEventListener("keydown", Field.moveMan);
