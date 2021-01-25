@@ -2,6 +2,7 @@ let man = "X";
 let fieldSquare = "F";
 let hole = "O";
 let hat = "H";
+let score = 0;
 
 
 class Field {
@@ -138,6 +139,7 @@ class Field {
         document.getElementById("setupDiv").style.display= "block";
         document.getElementById("earth").src = "resources/images/earth.gif";
         document.getElementById("earth").style.display = "none";
+        score = 0;
     }
 
     static endGame() {
@@ -146,7 +148,6 @@ class Field {
     }
 
  
-
     static up() {
         let manPos = document.getElementById("man").style.top;
         let newPos = Number(manPos.substring(0, manPos.length - 2));
@@ -254,12 +255,12 @@ class Field {
 
         console.log("hole coords", holeArrayXY[0]);
         if (manPosY == hatPosY && manPosX == hatPosX) {
-            document.getElementById("announcementDiv").innerText = "Congratulations! Delicious earthling!";
+            document.getElementById("announcementDiv").innerText = "Congratulations! You feast on delicious earthling!";
             document.getElementById("earth").src = "resources/images/explosion1.gif";
             Field.endGame();
         }
         if (manPosY < 0 || manPosX < 0 || manPosY >= fieldHeight || manPosX >= fieldWidth) {
-            document.getElementById("announcementDiv").innerText = "You've been swept into the comic undertow torn to pieces!";
+            document.getElementById("announcementDiv").innerText = "You've been swept into the cosmic undertow and torn to pieces!";
             document.getElementById("ufo").src = "resources/images/explosion1.gif";
             Field.endGame();
         }
