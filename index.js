@@ -3,6 +3,7 @@ let fieldSquare = "F";
 let hole = "O";
 let hat = "H";
 let score = 0;
+let lives = 1;
 
 
 
@@ -136,6 +137,7 @@ class Field {
         document.getElementById("setupDiv").style.display= "block";
         document.getElementById("earth").src = "resources/images/earth.gif";
         document.getElementById("earth").style.display = "none";
+        lives = 1;
         score = 0;
     }
 
@@ -333,6 +335,13 @@ class Field {
             let holePosX = holeArrayXY[XYpair][0];
             let holePosY = holeArrayXY[XYpair][1];
             if (manPosX == holePosX && manPosY == holePosY) {
+                lives--;
+                document.getElementById("statusBar").textContent = `Lives: ${lives}`;
+            }
+            if (lives < 0) {
+                lives = 0;
+                document.getElementById("statusBar").textContent = `Lives: ${lives}`;
+                document.getElementById("statusBar").style.color = "red";
                 score -= 150;
                 document.getElementById("announcementDiv").innerText = "You smashed into an asteroid and broke all your bones!";    
                 document.getElementById("man").src = "resources/images/explosion1.gif";
@@ -351,6 +360,7 @@ class Field {
         document.getElementById("setupDiv").style.display = "none";
         document.getElementById("announcementDiv").style.display = "inline-block";
         document.getElementById("announcementDiv").textContent = "Find and devour the foolish earthling!";
+        document.getElementById("statusBar").textContent = `Lives: ${lives}`;
         let okButton = document.createElement("input");
         okButton.type = "button";
         okButton.value = "OK!";
