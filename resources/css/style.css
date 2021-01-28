@@ -20,16 +20,6 @@ h1 {
     text-align: center;
 }
 
-#controlDiv {
-    position: fixed;
-    bottom: 0;
-    margin-left: auto;
-    margin-right: auto;
-    border: 5px blue solid;
-    z-index: 3;
-    display: none;
-}
-
 #anContainer {
     position: fixed;
     top: 6em;

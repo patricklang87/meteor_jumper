@@ -131,11 +131,9 @@ class Field {
         if (fieldDiv.hasChildNodes()) {
             fieldDiv.removeChild(fieldDiv.firstChild);
         }
-        document.getElementById("reset").style.display = "none";
         document.getElementById("announcementDiv").style.display = "none";
         document.getElementById("statusBar").style.display = "none";
         document.getElementById("statusBar").style.color = "hotpink";
-        document.getElementById("controlDiv").style.display = "none";
         document.getElementById("setupDiv").style.display= "block";
         document.getElementById("earth").src = "resources/images/earth.gif";
         document.getElementById("earth").style.display = "none";
@@ -152,8 +150,6 @@ class Field {
         resetButton.addEventListener('click', Field.reset);
         document.getElementById("announcementDiv").style.display = "inline-block";
         document.getElementById("announcementDiv").append(resetButton);
-        document.getElementById("buttonDiv").style.display = "none";
-        document.getElementById("reset").style.display = "block";
     }
 
     
@@ -356,9 +352,8 @@ class Field {
     static startGame() {
         let gameField = new Field(Field.fieldFromInput());
         gameField.print();
-        gameField.generateBrowserField();        
-        document.getElementById("controlDiv").style.display = "block";
-        document.getElementById("buttonDiv").style.display = "block";
+        gameField.generateBrowserField();
+
         document.getElementById("statusBar").style.display = "block";
         document.getElementById("setupDiv").style.display = "none";
         document.getElementById("announcementDiv").style.display = "inline-block";
@@ -383,5 +378,4 @@ document.getElementById("down").addEventListener("click", Field.down);
 document.getElementById("hold").addEventListener("click", Field.hold);
 document.getElementById("left").addEventListener("click", Field.left);
 document.getElementById("right").addEventListener("click", Field.right);
-document.getElementById("reset").addEventListener("click", Field.reset);
 //window.addEventListener("keydown", Field.moveMan);
