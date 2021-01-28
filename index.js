@@ -93,16 +93,12 @@ class Field {
                     issImage.style.maxHeight = "50px";
                     issImage.style.maxWidth = "50px";
                     issImage.style.transform = "scaleY(-1)";
-                    let holeDiv = document.createElement('div');
-                    holeDiv.style.height = "50px";
-                    holeDiv.style.width = "50px";
-                    holeDiv.appendChild(issImage);
-                    holeDiv.style.position = "absolute";
-                    holeDiv.style.top = y*50 + "px";
-                    holeDiv.style.left = x*50 + "px";
-                    holeDiv.style.zIndex = 1;
-                    holeDiv.id = "hat";
-                    fieldVisual.append(holeDiv);
+                    issImage.style.position = "absolute";
+                    issImage.style.top = y*50 + "px";
+                    issImage.style.left = x*50 + "px";
+                    issImage.style.zIndex = 1;
+                    issImage.id = "hat";
+                    fieldVisual.append(issImage);
                 }
 
                 if (this.field[y][x] == man) {
@@ -111,17 +107,12 @@ class Field {
                     ufoImage.id = "ufo";
                     ufoImage.style.height = "50px";
                     ufoImage.style.width = "50px";
-                    let holeDiv = document.createElement('div');
-                    holeDiv.style.height = "70px";
-                    holeDiv.style.width = "70px";
-                    holeDiv.appendChild(ufoImage);
-                    holeDiv.style.position = "absolute";
-                    holeDiv.style.top = y*50 + "px";
-                    holeDiv.style.left = x*50 + "px";
-                    holeDiv.style.zIndex = 2;
-                    holeDiv.id = "man";
-                    holeDiv.addEventListener("click", Field.hold);
-                    fieldVisual.append(holeDiv);
+                    ufoImage.style.position = "absolute";
+                    ufoImage.style.top = y*50 + "px";
+                    ufoImage.style.left = x*50 + "px";
+                    ufoImage.style.zIndex = 2;
+                    ufoImage.id = "man";
+                    fieldVisual.append(ufoImage);
                 }
             }
         }
@@ -192,6 +183,11 @@ class Field {
         else if (xValue < manPosX && yValue > manPosY && yValue < manPosY + 50) {
             console.log("click left");
             Field.left();
+        }
+
+        else if (xValue > manPosX && xValue < manPosX +50 && yValue > manPosY && yValue < manPosY + 50) {
+            console.log("click on");
+            Field.hold();
         }
     }
 
@@ -325,7 +321,7 @@ class Field {
             if (manPosX == holePosX && manPosY == holePosY) {
                 score -= 150;
                 document.getElementById("announcementDiv").innerText = "You smashed into an asteroid and broke all your bones!";    
-                document.getElementById("ufo").src = "resources/images/explosion1.gif";
+                document.getElementById("man").src = "resources/images/explosion1.gif";
                 Field.endGame();
             }
         }
