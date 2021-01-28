@@ -1,0 +1,75 @@
+static animateInField(element, direction) {
+        let elementToAnimate = document.getElementById(element);
+        let positionYStr = elementToAnimate.style.top;
+        let positionXStr = elementToAnimate.style.left;
+        let positionY = Number(positionYStr.substring(0, positionYStr.length -2));
+        let positionX = Number(positionXStr.substring(0, positionXStr.length -2));
+        console.log("posXY: ", positionX, positionY);
+        let id = setInterval(frame, 5);
+        let counter = 0;
+        function frame() { 
+            if (counter == 5) {
+                clearInterval(id);
+            } else {
+                if (direction == "right") {
+                    console.log("moving right", positionX);
+                    positionX += 10;
+                    elementToAnimate.style.left = positionX + "px";
+                    counter++;
+                } else if (direction == "left") {
+                    console.log("moving left");
+                    positionX -= 10;
+                    elementToAnimate.style.left = positionX + "px";
+                    counter++;
+                } else if (direction == "up") {
+                    console.log("moving up");
+                    positionY -= 10;
+                    elementToAnimate.style.top = positionY + "px";
+                    counter++;
+                } else if (direction == "down") {
+                    console.log("moving down");
+                    positionY += 10;
+                    elementToAnimate.style.top = positionY + "px";
+                    counter++;
+                }
+            }
+        }
+        console.log("newPosition: ", elementToAnimate.style.left, elementToAnimate.style.top);
+    }
+
+static updateHoleCoords() {
+        let fieldVisual = document.getElementById("fieldVisual"); 
+        let fieldVisChildren = fieldVisual.children;
+        for (let i = 0; i < fieldVisChildren.length; i++) {
+            let child = fieldVisChildren[i];
+            console.log("chilren: ", child.classList);
+            if (child.classList[0] == "hole") {
+                let holePosX = child.style.left;
+                holePosX = Number(holePosX.substring(0, holePosX.length-2));
+
+                /*let id = setInterval(frame, 5);
+                let counter = 0;
+                function frame() {
+                    if (counter == 5 && holePosX) {
+                        clearInterval(id);
+                    } else {
+                        console.log("moving asteroid");
+                        holePosX -= 10;
+                        child.style.left = holePosX + "px";
+                        counter++;
+                    }
+                }
+                */
+                holePosX -= 50;
+                if (holePosX < 0) {
+                    console.log("holePosY too low: ", holePosX);
+                    let fieldVisWidth = fieldVisual.style.width;
+                    fieldVisWidth = Number(fieldVisWidth.substring(0, fieldVisWidth.length-2));
+                    fieldVisWidth -= 50;
+                    holePosX = fieldVisWidth;
+                    console.log("new holePosX: ", holePosX);
+                }
+                let newHolePosX = `${holePosX}px`;
+                child.style.left = newHolePosX;
+            }
+        }

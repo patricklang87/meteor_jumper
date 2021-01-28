@@ -5,6 +5,7 @@ let hat = "H";
 let score = 0;
 
 
+
 class Field {
     constructor(field) {
         this.field = field;
@@ -64,6 +65,9 @@ class Field {
         fieldVisual.style.borderRadius = "10px";
         fieldVisual.style.position = "relative";
         fieldVisual.id = "fieldVisual";
+        
+        fieldVisual.addEventListener("click", function() {console.log("okay")});
+        fieldVisual.addEventListener('click', Field.manageMovement);
         fieldDiv.append(fieldVisual);
 
         document.getElementById("earth").style.display = "block";
@@ -75,6 +79,7 @@ class Field {
                     asteroidImage.src = "resources/images/asteroid.gif";
                     asteroidImage.style.height = "50px";
                     asteroidImage.style.width = "50px";
+                    asteroidImage.classList.add("hole");
                     let holeDiv = document.createElement('div');
                     holeDiv.style.height = "50px";
                     holeDiv.style.width = "50px";
@@ -84,6 +89,8 @@ class Field {
                     holeDiv.style.left = x*50 + "px";
                     holeDiv.style.zIndex = 1;
                     holeDiv.classList.add("hole");
+                    asteroidImage.style.top = holeDiv.style.top;
+                    asteroidImage.style.left = holeDiv.style.left;
                     fieldVisual.append(holeDiv);
                 }
 
@@ -120,6 +127,7 @@ class Field {
                     holeDiv.style.left = x*50 + "px";
                     holeDiv.style.zIndex = 2;
                     holeDiv.id = "man";
+                    holeDiv.addEventListener("click", Field.hold);
                     fieldVisual.append(holeDiv);
                 }
             }
@@ -148,6 +156,30 @@ class Field {
         document.getElementById("reset").style.display = "block";
     }
 
+    
+    static manageMovement(ev) {
+        console.log(ev.target.tagName, 'clicked');
+        let xValue = ev.offsetX;
+        let yValue = ev.offsetY;
+        if (ev.target.tagName == "IMG") {
+            console.log(ev.target);
+            let meteor = ev.target;
+            let posXStr = meteor.style.left;
+            let posYStr = meteor.style.top;
+            let posX = Number(posXStr.substring(0, posXStr.length-2));
+            let posY = Number(posYStr.substring(0, posYStr.length-2));
+            xValue += posX;
+            yValue += posY;
+            console.log('posX', posX);
+            console.log('posY', posY);
+        }
+        console.log('offsetX', xValue);
+        console.log('offsetY', yValue);
+        
+    }
+
+
+    
  
     static up() {
         let manPos = document.getElementById("man").style.top;
