@@ -80,18 +80,12 @@ class Field {
                     asteroidImage.style.height = "50px";
                     asteroidImage.style.width = "50px";
                     asteroidImage.classList.add("hole");
-                    let holeDiv = document.createElement('div');
-                    holeDiv.style.height = "50px";
-                    holeDiv.style.width = "50px";
-                    holeDiv.appendChild(asteroidImage);
-                    holeDiv.style.position = "absolute";
-                    holeDiv.style.top = y*50 + "px";
-                    holeDiv.style.left = x*50 + "px";
-                    holeDiv.style.zIndex = 1;
-                    holeDiv.classList.add("hole");
-                    asteroidImage.style.top = holeDiv.style.top;
-                    asteroidImage.style.left = holeDiv.style.left;
-                    fieldVisual.append(holeDiv);
+                    asteroidImage.style.position = "absolute";
+                    asteroidImage.style.top = y*50 + "px";
+                    asteroidImage.style.left = x*50 + "px";
+                    asteroidImage.style.zIndex = 1;
+                    asteroidImage.classList.add("hole");
+                    fieldVisual.append(asteroidImage);
                 }
 
                 if (this.field[y][x] == hat) {
@@ -175,7 +169,16 @@ class Field {
         }
         console.log('offsetX', xValue);
         console.log('offsetY', yValue);
-        
+
+        let manPosY = document.getElementById("man").style.top;
+        let manPosX = document.getElementById("man").style.left;
+        manPosY = Number(manPosY.substring(0, manPosY.length - 2));
+        manPosX = Number(manPosX.substring(0, manPosX.length - 2));
+
+        if (yValue < manPosY && xValue > manPosX && xValue < manPosX + 50) Field.up();
+        else if (yValue > manPosY + 50 && xValue > manPosX && xValue < manPosX + 50) Field.down();
+        else if (xValue > manPosX + 50 && yValue > manPosY && yValue < manPosY + 50) Field.right();
+        else if (xValue < manPosX && yValue > manPosy && yValue < manPosY + 50) Field.left();
     }
 
 
@@ -283,15 +286,19 @@ class Field {
         Field.updateHoleCoords();
         let manPosY = document.getElementById("man").style.top;
         let manPosX = document.getElementById("man").style.left;
+        manPosY = Number(manPosY.substring(0, manPosY.length - 2));
+        manPosX = Number(manPosX.substring(0, manPosX.length - 2));
+
         let hatPosY = document.getElementById("hat").style.top;
         let hatPosX = document.getElementById("hat").style.left;
+        hatPosY = Number(hatPosY.substring(0, hatPosY.length - 2));
+        hatPosX = Number(hatPosX.substring(0, hatPosX.length - 2));
+
         let fieldHeight = document.getElementById("fieldVisual").style.height;
         let fieldWidth = document.getElementById("fieldVisual").style.width;
             
-        manPosY = Number(manPosY.substring(0, manPosY.length - 2));
-        manPosX = Number(manPosX.substring(0, manPosX.length - 2));
-        hatPosY = Number(hatPosY.substring(0, hatPosY.length - 2));
-        hatPosX = Number(hatPosX.substring(0, hatPosX.length - 2));
+        
+        
         fieldHeight = Number(fieldHeight.substring(0, fieldHeight.length - 2));
         fieldWidth = Number(fieldWidth.substring(0, fieldWidth.length - 2));
         let holeArrayXY = Field.determineHoleCoords();
