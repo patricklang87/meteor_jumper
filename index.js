@@ -66,7 +66,6 @@ class Field {
         fieldVisual.style.position = "relative";
         fieldVisual.id = "fieldVisual";
         
-        fieldVisual.addEventListener("click", function() {console.log("okay")});
         fieldVisual.addEventListener('click', Field.manageMovement);
         fieldDiv.append(fieldVisual);
 
@@ -175,10 +174,25 @@ class Field {
         manPosY = Number(manPosY.substring(0, manPosY.length - 2));
         manPosX = Number(manPosX.substring(0, manPosX.length - 2));
 
-        if (yValue < manPosY && xValue > manPosX && xValue < manPosX + 50) Field.up();
-        else if (yValue > manPosY + 50 && xValue > manPosX && xValue < manPosX + 50) Field.down();
-        else if (xValue > manPosX + 50 && yValue > manPosY && yValue < manPosY + 50) Field.right();
-        else if (xValue < manPosX && yValue > manPosy && yValue < manPosY + 50) Field.left();
+        if (yValue < manPosY && xValue > manPosX && xValue < manPosX + 50) {
+            Field.up();
+            console.log("click above");
+        }
+        
+        else if (yValue > manPosY + 50 && xValue > manPosX && xValue < manPosX + 50) {
+            console.log("click below");
+            Field.down();
+        }
+         
+        else if (xValue > manPosX + 50 && yValue > manPosY && yValue < manPosY + 50)  {
+            console.log("click right");
+            Field.right();       
+        }
+
+        else if (xValue < manPosX && yValue > manPosY && yValue < manPosY + 50) {
+            console.log("click left");
+            Field.left();
+        }
     }
 
 
@@ -188,9 +202,7 @@ class Field {
         let manPos = document.getElementById("man").style.top;
         let newPos = Number(manPos.substring(0, manPos.length - 2));
         newPos -= 50;
-        console.log(newPos);
         newPos = newPos.toString() +"px";
-        console.log(newPos);
         document.getElementById("man").style.top = newPos;
         score -= 50;
         Field.checkPos();
@@ -199,9 +211,8 @@ class Field {
     static left() {
         let manPos = document.getElementById("man").style.left;
         let newPos = Number(manPos.substring(0, manPos.length - 2));
-        console.log(newPos);
+        newPos -= 50;
         newPos = newPos.toString() +"px";
-        console.log(newPos);
         document.getElementById("man").style.left = newPos;
         Field.checkPos();
     }
@@ -214,9 +225,7 @@ class Field {
         let manPos = document.getElementById("man").style.left;
         let newPos = Number(manPos.substring(0, manPos.length - 2));
         newPos += 50;
-        console.log(newPos);
         newPos = newPos.toString() +"px";
-        console.log(newPos);
         document.getElementById("man").style.left = newPos;
         score +=50
         Field.checkPos();
@@ -226,9 +235,7 @@ class Field {
         let manPos = document.getElementById("man").style.top;
         let newPos = Number(manPos.substring(0, manPos.length - 2));
         newPos += 50;
-        console.log(newPos);
         newPos = newPos.toString() +"px";
-        console.log(newPos);
         document.getElementById("man").style.top = newPos;
         score +=50;
         Field.checkPos();
@@ -254,18 +261,15 @@ class Field {
         let fieldVisChildren = fieldVisual.children;
         for (let i = 0; i < fieldVisChildren.length; i++) {
             let child = fieldVisChildren[i];
-            console.log("chilren: ", child.classList);
             if (child.classList[0] == "hole") {
                 let holePosX = child.style.left;
                 holePosX = Number(holePosX.substring(0, holePosX.length-2));
                 holePosX -= 50;
                 if (holePosX < 0) {
-                    console.log("holePosY too low: ", holePosX);
                     let fieldVisWidth = fieldVisual.style.width;
                     fieldVisWidth = Number(fieldVisWidth.substring(0, fieldVisWidth.length-2));
                     fieldVisWidth -= 50;
                     holePosX = fieldVisWidth;
-                    console.log("new holePosX: ", holePosX);
                 }
                 let newHolePosX = `${holePosX}px`;
                 child.style.left = newHolePosX;
@@ -303,7 +307,6 @@ class Field {
         fieldWidth = Number(fieldWidth.substring(0, fieldWidth.length - 2));
         let holeArrayXY = Field.determineHoleCoords();
 
-        console.log("hole coords", holeArrayXY[0]);
         if (manPosY == hatPosY && manPosX == hatPosX) {
             score += 150;
             document.getElementById("announcementDiv").innerText = "Congratulations! You feast on delicious earthling!";
