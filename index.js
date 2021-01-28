@@ -120,6 +120,11 @@ class Field {
 
     }
 
+    static hideAnnouncementDiv() {
+        let annDiv = document.getElementById("announcementDiv");
+        annDiv.style.display = "none";
+    }
+
     static reset() {
         let fieldDiv = document.getElementById("fieldDiv");
         if (fieldDiv.hasChildNodes()) {
@@ -135,7 +140,14 @@ class Field {
     }
 
     static endGame() {
+        document.getElementById("fieldVisual").removeEventListener("click", Field.manageMovement);
         this.displayScore();
+        let resetButton = document.createElement('input');
+        resetButton.type = "button";
+        resetButton.value = "Play Again";
+        resetButton.addEventListener('click', Field.reset);
+        document.getElementById("announcementDiv").style.display = "inline-block";
+        document.getElementById("announcementDiv").append(resetButton);
         document.getElementById("buttonDiv").style.display = "none";
         document.getElementById("reset").style.display = "block";
     }
@@ -307,6 +319,8 @@ class Field {
             score += 150;
             document.getElementById("announcementDiv").innerText = "Congratulations! You feast on delicious earthling!";
             document.getElementById("earth").src = "resources/images/explosion1.gif";
+            document.getElementById("hat").src = "resources/images/skeleton.gif";
+            document.getElementById("hat").style.transform = "scaleY(1)";
             Field.endGame();
         }
         if (manPosY < 0 || manPosX < 0 || manPosY >= fieldHeight || manPosX >= fieldWidth) {
@@ -335,8 +349,13 @@ class Field {
         document.getElementById("controlDiv").style.display = "block";
         document.getElementById("buttonDiv").style.display = "block";
         document.getElementById("setupDiv").style.display = "none";
-        document.getElementById("announcementDiv").style.display = "block";
+        document.getElementById("announcementDiv").style.display = "inline-block";
         document.getElementById("announcementDiv").textContent = "Find and devour the foolish earthling!";
+        let okButton = document.createElement("input");
+        okButton.type = "button";
+        okButton.value = "OK!";
+        okButton.addEventListener('click', Field.hideAnnouncementDiv);
+        document.getElementById("announcementDiv").append(okButton);
     }
     
 }

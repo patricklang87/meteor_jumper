@@ -6,6 +6,7 @@ body {
     font-family: 'Yusei Magic', sans-serif;
     background-image: url("https://media.giphy.com/media/aRZ4vTsHnyW6A/source.gif");
     color: white;
+    text-align: center;
 }
 
 h1 {
@@ -29,15 +30,37 @@ h1 {
     display: none;
 }
 
-#announcementDiv {
+#anContainer {
     position: fixed;
-    left: 50px;
-    z-index: 1;
-    vertical-align: center;
+    top: 6em;
+    width: 100%;
+    text-align: center;
+    z-index: 5;
+}
+
+#announcementDiv {
+    margin: 0 auto;
     font-family: 'Press Start 2P', cursive;
     max-width: 250px;
     color: hotpink;
     text-shadow: .5px .5px silver;
+    background-color: aquamarine;
+    opacity: .75;
+    padding: 3em;
+    border: silver 1em ridge;
+    border-radius: 1em;
+    display: none;
+    justify-self: center;
+}
+
+#announcementDiv input {
+    min-height: 3em;
+    min-width: 9em;
+    background-color: silver;
+    opacity: 1;
+    display: inline;
+    margin-top: 2em;
+    font-family: 'Press Start 2P', cursive;
 }
 
 #fieldDiv{
