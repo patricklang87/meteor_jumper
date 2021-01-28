@@ -133,6 +133,8 @@ class Field {
         }
         document.getElementById("reset").style.display = "none";
         document.getElementById("announcementDiv").style.display = "none";
+        document.getElementById("statusBar").style.display = "none";
+        document.getElementById("statusBar").style.color = "hotpink";
         document.getElementById("controlDiv").style.display = "none";
         document.getElementById("setupDiv").style.display= "block";
         document.getElementById("earth").src = "resources/images/earth.gif";
@@ -357,6 +359,7 @@ class Field {
         gameField.generateBrowserField();        
         document.getElementById("controlDiv").style.display = "block";
         document.getElementById("buttonDiv").style.display = "block";
+        document.getElementById("statusBar").style.display = "block";
         document.getElementById("setupDiv").style.display = "none";
         document.getElementById("announcementDiv").style.display = "inline-block";
         document.getElementById("announcementDiv").textContent = "Find and devour the foolish earthling!";
