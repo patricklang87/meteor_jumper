@@ -2,6 +2,7 @@ let man = "X";
 let fieldSquare = "F";
 let hole = "O";
 let hat = "H";
+let chicken = "C";
 let score = 0;
 let lives = 1;
 
@@ -17,8 +18,11 @@ class Field {
         for (let y = 0; y < height; y++) {
             let row = [];
             for (let x = 0; x < width; x++) {
-                let holeProbability = 20 + Number(difficulty);
-                if (Math.random()*100 < holeProbability) row.push(hole);
+                let holeProbability = 21 + Number(difficulty);
+                let chickenProbability = 1;
+                let liklihood = Math.random()*100;
+                if (liklihood < chickenProbability) row.push(chicken);
+                else if (liklihood < holeProbability) row.push(hole);
                 else row.push(fieldSquare);        
             }
             field.push(row);    
@@ -30,7 +34,6 @@ class Field {
         let hatY = height - 2;
 
         field[hatY][hatX] = hat;
-
 
         return field;
     }
@@ -84,8 +87,20 @@ class Field {
                     asteroidImage.style.top = y*50 + "px";
                     asteroidImage.style.left = x*50 + "px";
                     asteroidImage.style.zIndex = 1;
-                    asteroidImage.classList.add("hole");
                     fieldVisual.append(asteroidImage);
+                }
+
+                if (this.field[y][x] == chicken) {
+                    let chickenImage = document.createElement('img');
+                    chickenImage.src = "resources/images/duck.gif";
+                    chickenImage.style.height = "50px";
+                    chickenImage.style.width = "50px";
+                    chickenImage.style.position = "absolute";
+                    chickenImage.style.top = y*50 + "px";
+                    chickenImage.style.left = x*50 + "px";
+                    chickenImage.style.zIndex = 1;
+                    chickenImage.classList.add("chicken");
+                    fieldVisual.append(chickenImage);
                 }
 
                 if (this.field[y][x] == hat) {
@@ -263,8 +278,8 @@ class Field {
         Field.checkPos();
     }
 
-    static determineHoleCoords() {
-        let holes = document.getElementsByClassName("hole");
+    static determineElementCoords(element) {
+        let holes = document.getElementsByClassName(element);
         let holeArrayXY = [];
         for (let hole = 0; hole < holes.length; hole++) {
             let holeCoords = [];
@@ -272,7 +287,7 @@ class Field {
             let holePosY = holes[hole].style.top;
             holePosX = Number(holePosX.substring(0, holePosX.length - 2));
             holePosY = Number(holePosY.substring(0, holePosY.length - 2));
-            holeCoords.push(holePosX, holePosY);
+            holeCoords.push(holePosX, holePosY, holes[hole]);
             holeArrayXY.push(holeCoords);
         }
         return holeArrayXY;
@@ -283,7 +298,7 @@ class Field {
         let fieldVisChildren = fieldVisual.children;
         for (let i = 0; i < fieldVisChildren.length; i++) {
             let child = fieldVisChildren[i];
-            if (child.classList[0] == "hole") {
+            if (child.classList[0] == "hole" || child.classList[0] == "chicken") {
                 let holePosX = child.style.left;
                 holePosX = Number(holePosX.substring(0, holePosX.length-2));
                 holePosX -= 50;
@@ -327,7 +342,8 @@ class Field {
         
         fieldHeight = Number(fieldHeight.substring(0, fieldHeight.length - 2));
         fieldWidth = Number(fieldWidth.substring(0, fieldWidth.length - 2));
-        let holeArrayXY = Field.determineHoleCoords();
+        let holeArrayXY = Field.determineElementCoords("hole");
+        let chickenArrayXY = Field.determineElementCoords("chicken");
 
         if (manPosY == hatPosY && manPosX == hatPosX) {
             score += 150;
@@ -347,6 +363,20 @@ class Field {
             document.getElementById("ufo").src = "resources/images/explosion1.gif";
             Field.endGame();
         }
+
+        for (let XYpair = 0; XYpair < chickenArrayXY.length; XYpair++) {
+            let chickenPosX = chickenArrayXY[XYpair][0];
+            let chickenPosY = chickenArrayXY[XYpair][1];
+            if (manPosX == chickenPosX && manPosY == chickenPosY) {
+                lives++;
+                document.getElementById("statusBar").textContent = `Lives: ${lives}`;
+                chickenArrayXY[XYpair][2].src = "resources/images/sparkles.gif";
+                chickenArrayXY[XYpair][2].classList.remove("chicken");
+                let audio = document.getElementById("nomnom");
+                audio.play();
+            }
+        }
+
         for (let XYpair = 0; XYpair < holeArrayXY.length; XYpair++) {
             let holePosX = holeArrayXY[XYpair][0];
             let holePosY = holeArrayXY[XYpair][1];
