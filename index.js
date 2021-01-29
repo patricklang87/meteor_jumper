@@ -1,6 +1,7 @@
 let man = "X";
 let fieldSquare = "F";
 let hole = "O";
+let altMeteor = "A"
 let hat = "H";
 let chicken = "C";
 let score = 0;
@@ -22,7 +23,12 @@ class Field {
                 let chickenProbability = 1;
                 let liklihood = Math.random()*100;
                 if (liklihood < chickenProbability) row.push(chicken);
-                else if (liklihood < holeProbability) row.push(hole);
+                else if (liklihood < holeProbability) {
+                    let asteroidTypeProbability = Math.random()*100;
+                    if (asteroidTypeProbability < 5) row.push(altMeteor);
+                    else row.push(hole);
+                }
+
                 else row.push(fieldSquare);        
             }
             field.push(row);    
@@ -90,9 +96,23 @@ class Field {
                     fieldVisual.append(asteroidImage);
                 }
 
+                if (this.field[y][x] == altMeteor) {
+                    let asteroidImage = document.createElement('img');
+                    asteroidImage.src = "resources/images/asteroid2.gif";
+                    asteroidImage.style.height = "50px";
+                    asteroidImage.style.width = "50px";
+                    asteroidImage.classList.add("altMeteor");
+                    asteroidImage.classList.add("hole");
+                    asteroidImage.style.position = "absolute";
+                    asteroidImage.style.top = y*50 + "px";
+                    asteroidImage.style.left = x*50 + "px";
+                    asteroidImage.style.zIndex = 1;
+                    fieldVisual.append(asteroidImage);
+                }
+
                 if (this.field[y][x] == chicken) {
                     let chickenImage = document.createElement('img');
-                    chickenImage.src = "resources/images/duck.gif";
+                    chickenImage.src = "resources/images/bolt.gif";
                     chickenImage.style.height = "50px";
                     chickenImage.style.width = "50px";
                     chickenImage.style.position = "absolute";
@@ -114,6 +134,7 @@ class Field {
                     issImage.style.left = x*50 + "px";
                     issImage.style.zIndex = 1;
                     issImage.id = "hat";
+                    issImage.classList.add("hat");
                     fieldVisual.append(issImage);
                 }
 
@@ -293,23 +314,38 @@ class Field {
         return holeArrayXY;
     }
 
-    static updateHoleCoords() {
+    static updateElementCoords(element, direction) {
         let fieldVisual = document.getElementById("fieldVisual"); 
         let fieldVisChildren = fieldVisual.children;
         for (let i = 0; i < fieldVisChildren.length; i++) {
             let child = fieldVisChildren[i];
-            if (child.classList[0] == "hole" || child.classList[0] == "chicken") {
+            if (child.classList[0] == element) {
                 let holePosX = child.style.left;
+                let holePosY = child.style.top;
                 holePosX = Number(holePosX.substring(0, holePosX.length-2));
-                holePosX -= 50;
-                if (holePosX < 0) {
-                    let fieldVisWidth = fieldVisual.style.width;
-                    fieldVisWidth = Number(fieldVisWidth.substring(0, fieldVisWidth.length-2));
-                    fieldVisWidth -= 50;
-                    holePosX = fieldVisWidth;
+                holePosY = Number(holePosY.substring(0, holePosY.length-2));
+                if (direction == "left") {
+                    holePosX -= 50;
+                    if (holePosX < 0) {
+                        let fieldVisWidth = fieldVisual.style.width;
+                        fieldVisWidth = Number(fieldVisWidth.substring(0, fieldVisWidth.length-2));
+                        fieldVisWidth -= 50;
+                        holePosX = fieldVisWidth;
+                    }
+                    let newHolePosX = `${holePosX}px`;
+                    child.style.left = newHolePosX;
                 }
-                let newHolePosX = `${holePosX}px`;
-                child.style.left = newHolePosX;
+                else if (direction == "up") {
+                    holePosY -= 50;
+                    if (holePosY < 0) {
+                        let fieldVisHeight = fieldVisual.style.height;
+                        fieldVisHeight = Number(fieldVisHeight.substring(0, fieldVisHeight.length-2));
+                        fieldVisHeight -= 50;
+                        holePosY = fieldVisHeight;
+                    }
+                    let newHolePosY = `${holePosY}px`;
+                    child.style.top = newHolePosY;
+                }    
             }
         }
         
@@ -322,9 +358,21 @@ class Field {
         announcementDiv.appendChild(scoreDis);
     }
 
+    static moveAstronaut(prob) {
+        let randomNum = Math.random()*100;
+        if (randomNum < prob) {
+            console.log("Moving astronaut");
+            if (Math.random() < 0.5) Field.updateElementCoords("hat", "left");
+            else Field.updateElementCoords("hat", "up");
+        }
+    }
+
     static checkPos() {
         score -= 25;
-        Field.updateHoleCoords();
+        Field.updateElementCoords("hole", "left");
+        Field.updateElementCoords("altMeteor", "up");
+        Field.updateElementCoords("chicken", "up");
+        Field.moveAstronaut(33);
         let manPosY = document.getElementById("man").style.top;
         let manPosX = document.getElementById("man").style.left;
         manPosY = Number(manPosY.substring(0, manPosY.length - 2));
@@ -337,8 +385,6 @@ class Field {
 
         let fieldHeight = document.getElementById("fieldVisual").style.height;
         let fieldWidth = document.getElementById("fieldVisual").style.width;
-            
-        
         
         fieldHeight = Number(fieldHeight.substring(0, fieldHeight.length - 2));
         fieldWidth = Number(fieldWidth.substring(0, fieldWidth.length - 2));
@@ -357,18 +403,14 @@ class Field {
             document.getElementById("hat").style.transform = "scaleY(1)";
             Field.endGame();
         }
-        if (manPosY < 0 || manPosX < 0 || manPosY >= fieldHeight || manPosX >= fieldWidth) {
-            score -= 150;
-            document.getElementById("announcementDiv").innerText = "You've been swept into the cosmic undertow and torn to pieces!";
-            document.getElementById("ufo").src = "resources/images/explosion1.gif";
-            Field.endGame();
-        }
+
 
         for (let XYpair = 0; XYpair < chickenArrayXY.length; XYpair++) {
             let chickenPosX = chickenArrayXY[XYpair][0];
             let chickenPosY = chickenArrayXY[XYpair][1];
             if (manPosX == chickenPosX && manPosY == chickenPosY) {
                 lives++;
+                score += 50;
                 document.getElementById("statusBar").textContent = `Lives: ${lives}`;
                 chickenArrayXY[XYpair][2].src = "resources/images/sparkles.gif";
                 chickenArrayXY[XYpair][2].classList.remove("chicken");
@@ -382,19 +424,21 @@ class Field {
             let holePosY = holeArrayXY[XYpair][1];
             if (manPosX == holePosX && manPosY == holePosY) {
                 lives--;
+                score -= 50;
                 document.getElementById("statusBar").textContent = `Lives: ${lives}`;
                 let audio = document.getElementById("oof");
                 audio.play();
             }
-            if (lives < 0) {
-                lives = 0;
-                document.getElementById("statusBar").textContent = `Lives: ${lives}`;
-                document.getElementById("statusBar").style.color = "red";
-                score -= 150;
-                document.getElementById("announcementDiv").innerText = "You smashed into an asteroid and broke all your bones!";    
-                document.getElementById("man").src = "resources/images/explosion1.gif";
-                Field.endGame();
-            }
+            
+        }
+        if (lives < 0) {
+            lives = 0;
+            document.getElementById("statusBar").textContent = `Lives: ${lives}`;
+            document.getElementById("statusBar").style.color = "red";
+            score -= 100;
+            document.getElementById("announcementDiv").innerText = "You smashed into an asteroid and broke all your bones!";    
+            document.getElementById("man").src = "resources/images/explosion1.gif";
+            Field.endGame();
         }
     }
 
@@ -418,14 +462,5 @@ class Field {
     
 }
 
-//let newField = new Field(Field.createField(20, 10, 10));
-//newField.print();
-//newField.generateBrowserField();
 
 document.getElementById("start").addEventListener("click", Field.startGame);
-document.getElementById("up").addEventListener("click", Field.up);
-document.getElementById("down").addEventListener("click", Field.down);
-document.getElementById("hold").addEventListener("click", Field.hold);
-document.getElementById("left").addEventListener("click", Field.left);
-document.getElementById("right").addEventListener("click", Field.right);
-//window.addEventListener("keydown", Field.moveMan);
