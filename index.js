@@ -367,6 +367,18 @@ class Field {
         }
     }
 
+    static showColorBackground(color) {
+        document.getElementById("statusBar").textContent = `Lives: ${lives}`;
+        let painOverlay = document.createElement("div");
+        painOverlay.style.backgroundColor = color;
+        painOverlay.style.opacity = ".2";
+        painOverlay.style.width = "100%";
+        painOverlay.style.height = "100%";
+        painOverlay.style.zIndex = "5";
+        document.getElementById("fieldVisual").append(painOverlay);
+        setTimeout(function() {document.getElementById("fieldVisual").removeChild(painOverlay);}, 250)
+    }
+
     static checkPos() {
         score -= 25;
         Field.updateElementCoords("hole", "left");
@@ -411,6 +423,7 @@ class Field {
             if (manPosX == chickenPosX && manPosY == chickenPosY) {
                 lives++;
                 score += 50;
+                Field.showColorBackground("yellow");
                 document.getElementById("statusBar").textContent = `Lives: ${lives}`;
                 chickenArrayXY[XYpair][2].src = "resources/images/sparkles.gif";
                 chickenArrayXY[XYpair][2].classList.remove("chicken");
@@ -425,7 +438,7 @@ class Field {
             if (manPosX == holePosX && manPosY == holePosY) {
                 lives--;
                 score -= 50;
-                document.getElementById("statusBar").textContent = `Lives: ${lives}`;
+                Field.showColorBackground("red");
                 let audio = document.getElementById("oof");
                 audio.play();
             }
