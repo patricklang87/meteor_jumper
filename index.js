@@ -178,28 +178,42 @@ class Field {
         manPosX = Number(manPosX.substring(0, manPosX.length - 2));
 
         if (yValue < manPosY && xValue > manPosX && xValue < manPosX + 50) {
+            let audio = document.getElementById("okay");
+            audio.play();
             Field.up();
             console.log("click above");
         }
         
         else if (yValue > manPosY + 50 && xValue > manPosX && xValue < manPosX + 50) {
+            let audio = document.getElementById("okay");
+            audio.play();
             console.log("click below");
             Field.down();
         }
          
         else if (xValue > manPosX + 50 && yValue > manPosY && yValue < manPosY + 50)  {
+            let audio = document.getElementById("okay");
+            audio.play();
             console.log("click right");
             Field.right();       
         }
 
         else if (xValue < manPosX && yValue > manPosY && yValue < manPosY + 50) {
+            let audio = document.getElementById("okay");
+            audio.play();
             console.log("click left");
             Field.left();
         }
 
         else if (xValue > manPosX && xValue < manPosX +50 && yValue > manPosY && yValue < manPosY + 50) {
+            let audio = document.getElementById("okay");
+            audio.play();
             console.log("click on");
             Field.hold();
+        }
+        else {
+            let audio = document.getElementById("nuuh");
+            audio.play();
         }
     }
 
@@ -320,6 +334,10 @@ class Field {
             document.getElementById("announcementDiv").innerText = "Congratulations! You feast on delicious earthling!";
             document.getElementById("earth").src = "resources/images/explosion1.gif";
             document.getElementById("hat").src = "resources/images/skeleton.gif";
+            let audio1 = document.getElementById("thehumanity");
+            audio1.play();
+            let audio2 = document.getElementById("nomnom");
+            audio2.play();
             document.getElementById("hat").style.transform = "scaleY(1)";
             Field.endGame();
         }
@@ -335,6 +353,8 @@ class Field {
             if (manPosX == holePosX && manPosY == holePosY) {
                 lives--;
                 document.getElementById("statusBar").textContent = `Lives: ${lives}`;
+                let audio = document.getElementById("oof");
+                audio.play();
             }
             if (lives < 0) {
                 lives = 0;
