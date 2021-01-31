@@ -317,6 +317,10 @@ class Field {
     static updateElementCoords(element, direction) {
         let fieldVisual = document.getElementById("fieldVisual"); 
         let fieldVisChildren = fieldVisual.children;
+        let fieldVisWidth = fieldVisual.style.width;
+        fieldVisWidth = Number(fieldVisWidth.substring(0, fieldVisWidth.length-2));
+        let fieldVisHeight = fieldVisual.style.height;
+        fieldVisHeight = Number(fieldVisHeight.substring(0, fieldVisHeight.length-2));
         for (let i = 0; i < fieldVisChildren.length; i++) {
             let child = fieldVisChildren[i];
             if (child.classList[0] == element) {
@@ -327,25 +331,34 @@ class Field {
                 if (direction == "left") {
                     holePosX -= 50;
                     if (holePosX < 0) {
-                        let fieldVisWidth = fieldVisual.style.width;
-                        fieldVisWidth = Number(fieldVisWidth.substring(0, fieldVisWidth.length-2));
                         fieldVisWidth -= 50;
                         holePosX = fieldVisWidth;
                     }
                     let newHolePosX = `${holePosX}px`;
                     child.style.left = newHolePosX;
-                }
-                else if (direction == "up") {
+                } else if (direction == "up") {
                     holePosY -= 50;
                     if (holePosY < 0) {
-                        let fieldVisHeight = fieldVisual.style.height;
-                        fieldVisHeight = Number(fieldVisHeight.substring(0, fieldVisHeight.length-2));
                         fieldVisHeight -= 50;
                         holePosY = fieldVisHeight;
                     }
                     let newHolePosY = `${holePosY}px`;
                     child.style.top = newHolePosY;
-                }    
+                } else if (direction == "down") {
+                    holePosY += 50;
+                    if (holePosY >= fieldVisHeight) {
+                        holePosY = 0;
+                    }
+                    let newHolePosY = `${holePosY}px`;
+                    child.style.top = newHolePosY;
+                } else if (direction == "right") {
+                    holePosX += 50;
+                    if (holePosX >= fieldVisWidth) {
+                        holePosX = 0;
+                    }
+                    let newHolePosX = `${holePosX}px`;
+                    child.style.left = newHolePosX;
+                }
             }
         }
         
@@ -362,8 +375,17 @@ class Field {
         let randomNum = Math.random()*100;
         if (randomNum < prob) {
             console.log("Moving astronaut");
-            if (Math.random() < 0.5) Field.updateElementCoords("hat", "left");
-            else Field.updateElementCoords("hat", "up");
+            let ranNum2 = Math.random()*100;
+            if (ranNum2 < 25) Field.updateElementCoords("hat", "left");
+            else if (25 <= ranNum2 && ranNum2 <= 50) Field.updateElementCoords("hat", "up");
+            else if (50 <= ranNum2 && ranNum2 <= 75) Field.updateElementCoords("hat", "right");
+            else {
+                let astronautYStr = document.getElementById("hat").style.top;
+                let astronautY = Number(astronautYStr.substring(0, astronautYStr.length -2));
+                let fieldVisHeightStr = document.getElementById("fieldVisual").style.height;
+                let fieldVisHeight = Number(fieldVisHeightStr.substring(0, fieldVisHeightStr.length -2));
+                if (astronautY < fieldVisHeight - 50) Field.updateElementCoords("hat", "down");
+            }
         }
     }
 
