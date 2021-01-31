@@ -34,9 +34,11 @@ class Field {
             field.push(row);    
         }
 
-        field[0][0] = man;
+        let manX = Math.floor(width/2);
 
-        let hatX = Math.floor(Math.random()*width);
+        field[1][manX] = man;
+
+        let hatX = Math.floor(Math.random()*width) - 1;
         let hatY = height - 2;
 
         field[hatY][hatX] = hat;
@@ -141,7 +143,6 @@ class Field {
                 if (this.field[y][x] == man) {
                     let ufoImage = document.createElement('img');
                     ufoImage.src = "resources/images/ufo.gif";
-                    ufoImage.id = "ufo";
                     ufoImage.style.height = "50px";
                     ufoImage.style.width = "50px";
                     ufoImage.style.position = "absolute";
@@ -254,9 +255,54 @@ class Field {
     }
 
 
+    static animateInField(elementToAnimate, direction, nextFunction=null, nextFunction2=null) {
+        document.getElementById("fieldVisual").removeEventListener("click", Field.manageMovement);
+        let positionYStr = elementToAnimate.style.top;
+        let positionXStr = elementToAnimate.style.left;
+        let positionY = Number(positionYStr.substring(0, positionYStr.length -2));
+        let positionX = Number(positionXStr.substring(0, positionXStr.length -2));
+        console.log("posXY: ", positionX, positionY);
+        let id = setInterval(frame, 50);
+        let counter = 0;
+        function frame() { 
+            if (counter == 2) {
+                clearInterval(id);
+                nextFunction;
+                if (nextFunction2 != null) console.log("checking Pos");
+                nextFunction2;
+                document.getElementById("fieldVisual").addEventListener("click", Field.manageMovement);
+            } else {
+                if (direction == "right") {
+                    console.log("moving right", positionX);
+                    positionX += 25;
+                    elementToAnimate.style.left = positionX + "px";
+                    counter++;
+                } else if (direction == "left") {
+                    console.log("moving left");
+                    positionX -= 25;
+                    elementToAnimate.style.left = positionX + "px";
+                    counter++;
+                } else if (direction == "up") {
+                    console.log("moving up");
+                    positionY -= 25;
+                    elementToAnimate.style.top = positionY + "px";
+                    counter++;
+                } else if (direction == "down") {
+                    console.log("moving down");
+                    positionY += 25;
+                    elementToAnimate.style.top = positionY + "px";
+                    counter++;
+                }
+            }
+        }
+        console.log("newPosition: ", elementToAnimate.style.left, elementToAnimate.style.top);
+    }
     
  
     static up() {
+        let man = document.getElementById("man");
+        Field.animateInField(man, "up", Field.nonplayerAnimations(), Field.checkPos());
+        /*
         let manPos = document.getElementById("man").style.top;
         let newPos = Number(manPos.substring(0, manPos.length - 2));
         newPos -= 50;
@@ -264,22 +310,31 @@ class Field {
         document.getElementById("man").style.top = newPos;
         score -= 50;
         Field.checkPos();
+        */
     }
 
     static left() {
+        let man = document.getElementById("man");
+        Field.animateInField(man, "left", Field.nonplayerAnimations(), Field.checkPos());
+        /*
         let manPos = document.getElementById("man").style.left;
         let newPos = Number(manPos.substring(0, manPos.length - 2));
         newPos -= 50;
         newPos = newPos.toString() +"px";
         document.getElementById("man").style.left = newPos;
         Field.checkPos();
+        */
     }
 
     static hold() {
+        Field.nonplayerAnimations();
         Field.checkPos();
     }
 
     static right() {
+        let man = document.getElementById("man");
+        Field.animateInField(man, "right", Field.nonplayerAnimations(), Field.checkPos());
+        /*
         let manPos = document.getElementById("man").style.left;
         let newPos = Number(manPos.substring(0, manPos.length - 2));
         newPos += 50;
@@ -287,9 +342,13 @@ class Field {
         document.getElementById("man").style.left = newPos;
         score +=50
         Field.checkPos();
+        */
     }
 
     static down() {
+        let man = document.getElementById("man");
+        Field.animateInField(man, "down", Field.nonplayerAnimations(), Field.checkPos());
+        /*
         let manPos = document.getElementById("man").style.top;
         let newPos = Number(manPos.substring(0, manPos.length - 2));
         newPos += 50;
@@ -297,6 +356,7 @@ class Field {
         document.getElementById("man").style.top = newPos;
         score +=50;
         Field.checkPos();
+        */
     }
 
     static determineElementCoords(element) {
@@ -314,18 +374,21 @@ class Field {
         return holeArrayXY;
     }
 
-    static updateElementCoords(element, direction) {
-        let fieldVisual = document.getElementById("fieldVisual"); 
-        let fieldVisChildren = fieldVisual.children;
-        for (let i = 0; i < fieldVisChildren.length; i++) {
-            let child = fieldVisChildren[i];
-            if (child.classList[0] == element) {
-                let holePosX = child.style.left;
+    static nonplayerAnimations() {    
+        Field.updateElementCoords("altMeteor", "up");
+        Field.updateElementCoords("chicken", "up");
+        Field.updateElementCoords("hole", "left");
+        Field.moveAstronaut(33);
+    }
+
+    static checkOutofBoundsAnimations(element, direction) {
+        let child = element;
+        let holePosX = child.style.left;
                 let holePosY = child.style.top;
                 holePosX = Number(holePosX.substring(0, holePosX.length-2));
                 holePosY = Number(holePosY.substring(0, holePosY.length-2));
                 if (direction == "left") {
-                    holePosX -= 50;
+                    //holePosX -= 50;
                     if (holePosX < 0) {
                         let fieldVisWidth = fieldVisual.style.width;
                         fieldVisWidth = Number(fieldVisWidth.substring(0, fieldVisWidth.length-2));
@@ -334,9 +397,8 @@ class Field {
                     }
                     let newHolePosX = `${holePosX}px`;
                     child.style.left = newHolePosX;
-                }
-                else if (direction == "up") {
-                    holePosY -= 50;
+                } else if (direction == "up") {
+                    //holePosY -= 50;
                     if (holePosY < 0) {
                         let fieldVisHeight = fieldVisual.style.height;
                         fieldVisHeight = Number(fieldVisHeight.substring(0, fieldVisHeight.length-2));
@@ -345,7 +407,18 @@ class Field {
                     }
                     let newHolePosY = `${holePosY}px`;
                     child.style.top = newHolePosY;
-                }    
+                }  
+    }
+
+    static updateElementCoords(element, direction) {
+        let fieldVisual = document.getElementById("fieldVisual"); 
+        let fieldVisChildren = fieldVisual.children;
+        for (let i = 0; i < fieldVisChildren.length; i++) {
+            let child = fieldVisChildren[i];
+            if (child.classList[0] == element && element == "hole") {
+                Field.animateInField(child, direction, Field.checkOutofBoundsAnimations(child, direction));
+            } else if (child.classList[0] == element) {
+                Field.animateInField(child, direction, Field.checkOutofBoundsAnimations(child, direction));     
             }
         }
         
@@ -362,8 +435,9 @@ class Field {
         let randomNum = Math.random()*100;
         if (randomNum < prob) {
             console.log("Moving astronaut");
-            if (Math.random() < 0.5) Field.updateElementCoords("hat", "left");
-            else Field.updateElementCoords("hat", "up");
+            let astronaut = document.getElementById("hat");
+            if (Math.random() < .5) Field.animateInField(astronaut, "left"), Field.checkOutofBoundsAnimations(astronaut, "left");
+            else Field.animateInField(astronaut, "up"), Field.checkOutofBoundsAnimations(astronaut, "up");
         }
     }
 
@@ -393,10 +467,7 @@ class Field {
 
     static checkPos() {
         score -= 25;
-        Field.updateElementCoords("hole", "left");
-        Field.updateElementCoords("altMeteor", "up");
-        Field.updateElementCoords("chicken", "up");
-        Field.moveAstronaut(33);
+        
         let manPosY = document.getElementById("man").style.top;
         let manPosX = document.getElementById("man").style.left;
         manPosY = Number(manPosY.substring(0, manPosY.length - 2));
@@ -428,6 +499,12 @@ class Field {
             Field.endGame();
         }
 
+        if (manPosY < 0 || manPosX < 0 || manPosY >= fieldHeight || manPosX >= fieldWidth) {
+            score -= 150;
+            document.getElementById("announcementDiv").innerText = "You've been swept into the cosmic undertow and torn to pieces!";
+            document.getElementById("man").src = "resources/images/explosion1.gif";
+            Field.endGame();
+        }
 
         for (let XYpair = 0; XYpair < chickenArrayXY.length; XYpair++) {
             let chickenPosX = chickenArrayXY[XYpair][0];
@@ -450,6 +527,7 @@ class Field {
             if (manPosX == holePosX && manPosY == holePosY) {
                 lives--;
                 score -= 50;
+                document.getElementById("statusBar").textContent = `Lives: ${lives}`;
                 Field.showColorBackground("red");
                 let audio = document.getElementById("oof");
                 audio.play();
