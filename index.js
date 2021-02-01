@@ -511,3 +511,14 @@ class Field {
 
 
 document.getElementById("start").addEventListener("click", Field.startGame);
+let modifier = 50;
+window.addEventListener("keyup", (event) => {
+    const { style } = document.getElementById("man"); 
+    switch (event.key) {
+        case 'ArrowUp': Field.up(); break;
+        case 'ArrowDown': Field.down(); break;
+        case 'ArrowLeft': Field.left(); break;
+        case 'ArrowRight': Field.right(); break;
+        case 'b': Field.hold(); break;
+    }
+});
