@@ -450,6 +450,12 @@ class Field {
             Field.endGame();
         }
 
+        if (manPosY < 0 || manPosX < 0 || manPosY >= fieldHeight || manPosX >= fieldWidth) {
+            score -= 150;
+            document.getElementById("announcementDiv").innerText = "You've been swept into the cosmic undertow and torn to pieces!";
+            document.getElementById("man").src = "resources/images/explosion1.gif";
+            Field.endGame();
+        }
 
         for (let XYpair = 0; XYpair < chickenArrayXY.length; XYpair++) {
             let chickenPosX = chickenArrayXY[XYpair][0];
