@@ -141,7 +141,7 @@ class Field {
                 if (this.field[y][x] == man) {
                     let ufoImage = document.createElement('img');
                     ufoImage.src = "resources/images/ufo.gif";
-                    ufoImage.id = "ufo";
+    
                     ufoImage.style.height = "50px";
                     ufoImage.style.width = "50px";
                     ufoImage.style.position = "absolute";
@@ -331,16 +331,16 @@ class Field {
                 if (direction == "left") {
                     holePosX -= 50;
                     if (holePosX < 0) {
-                        fieldVisWidth -= 50;
-                        holePosX = fieldVisWidth;
+                        let placement = fieldVisWidth - 50;
+                        holePosX = placement;
                     }
                     let newHolePosX = `${holePosX}px`;
                     child.style.left = newHolePosX;
                 } else if (direction == "up") {
                     holePosY -= 50;
                     if (holePosY < 0) {
-                        fieldVisHeight -= 50;
-                        holePosY = fieldVisHeight;
+                        let placement = fieldVisHeight - 50;
+                        holePosY = placement;
                     }
                     let newHolePosY = `${holePosY}px`;
                     child.style.top = newHolePosY;
@@ -477,6 +477,7 @@ class Field {
             let holePosY = holeArrayXY[XYpair][1];
             if (manPosX == holePosX && manPosY == holePosY) {
                 lives--;
+                document.getElementById("statusBar").textContent = `Lives: ${lives}`;
                 score -= 50;
                 Field.showColorBackground("red");
                 let audio = document.getElementById("oof");
