@@ -15,9 +15,10 @@
 
 ## Potential Future Updates
 
-- [ ] Creation of storymode
-- [ ] Animation of asteroid progression
-- [ ] Creation of user profiles
+- [ ] Fix footer formatting and improve mobile formatting.
+- [ ] Creation of story mode.
+- [ ] Animation of asteroid progression.
+- [ ] Creation of user profiles.
 - [ ] Addition of Two-Player Racing Mode.
  
 ## Author
