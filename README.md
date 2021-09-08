@@ -8,10 +8,10 @@
 
 ## How to play
 
-- The game has been deployed on GitHub Pages
+- The game has been deployed on GitHub Pages.
 - The goal of the game is to find and devour the astronaut floating somewhere near the end of the game field.
 - Avoid hitting asteroids or leaving the game field. Lightning bolts give you an extra life.
-- On a computer, use the directional keys to control your ship. Press B to hold still while the asteroids advance. On mobile, tap the screen in the direction you wish to travel, or tap on your spaceship to hold still. Moving toward an oncoming asteroid allows you to jump it.
+- On a computer, use the arrow keys to control your ship. Press B to hold still while the asteroids advance. On mobile, tap the screen in the direction you wish to travel, or tap on your spaceship to hold still. Moving toward an oncoming asteroid allows you to jump it.
 
 ## Potential Future Updates
 
