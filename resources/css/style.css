@@ -19,6 +19,20 @@ h1 {
     text-align: center;
 }
 
+.titleDiv {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.titleDiv img {
+    margin-left: 20px;
+    margin-right: 20px;
+    opacity: 1;
+    transition: opacity 500ms ease-in-out;
+}
+
 #setupDiv {
     text-align: center;
 }
@@ -43,8 +57,7 @@ h1 {
     max-width: 250px;
     color: hotpink;
     text-shadow: .5px .5px silver;
-    background-color: aquamarine;
-    opacity: .75;
+    background-color: rgba(127, 255, 212, 0.815);
     padding: 3em;
     border: silver 1em ridge;
     border-radius: 1em;
@@ -52,7 +65,8 @@ h1 {
     justify-self: center;
 }
 
-#announcementDiv input {
+#announcementDiv input,
+button {
     min-height: 3em;
     min-width: 9em;
     background-color: silver;
@@ -60,6 +74,12 @@ h1 {
     display: inline;
     margin-top: 2em;
     font-family: 'Press Start 2P', cursive;
+}
+
+#announcementDiv input:hover,
+button:hover {
+    background-color: rgb(143, 141, 141);
+    color: rgb(217, 255, 47)
 }
 
 #statusBar {
@@ -96,6 +116,7 @@ footer {
     background-color: goldenrod;
     opacity: 0.8;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin: 0;
     padding: 20px;
@@ -107,6 +128,10 @@ footer {
 
 #copyright {
     text-align: right;
+}
+
+.animated {
+    transition: left 250ms ease-in-out, top 250ms ease-in-out;
 }
 
 footer p {

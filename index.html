@@ -14,22 +14,27 @@
         
     </head>
     <body>
-
-        <h1>Meteor Jumper</h1>
+        <div class="titleDiv">
+            <img class="titleImg" src='./resources/images/ufo.gif' alt="ufo" height="80px" />
+            <h1>Meteor Jumper</h1>
+            <img class="titleImg" src='./resources/images/astronaut.gif' alt="ufo" height="80px" style='transform: rotate(220deg)' />
+        </div>
+        
         <div id="setupDiv">
             <h2>Setup</h2>
             <p>Please enter a height and width:</p>
             <label for="height" value="height">Height</label>
-            <input type="number" id="height" value="10" max="40" min="7"/>
+            <input type="number" id="height" value="20" max="40" min="7"/>
             <label for="width" value="width">Width</label>
             <input type="number" id="width" value="10" max="40" min="7"/>
             <p>Please enter a difficulty level (1-20)</p>
             <label for="difficulty" value="difficulty">Difficulty</label>
-            <input type="number" id="difficulty" value="10" min="0" max="20" />
-            <input type="button" value="Start" id="start" />
+            <input type="number" id="difficulty" value="7" min="1" max="15" />
+            <br />
+            <button id="start">START</button>
             <p>On a computer, move the spaceman with the arrow keys. Use the B key to hold still.</p>
             <p>On a smartphone, click on the column above or below your spaceship to move the ship up or down. Click on your ship to hold still.</p>
-            <p>You can squeeze between diagonally adjacent asteroids. Click the row left or right of your spaceship to move left or right. Flying into an adjecent oncoming asteroid allows you to jump it!</p>
+            <p>You can squeeze between diagonally adjacent asteroids. Click the row left or right of your spaceship to move left or right. Flying into an adjecent oncoming asteroid allows you to jump it! Catch a lightning bolt to gain a life!</p>
         </div>
         <div id="anContainer">
             <div id="announcementDiv">

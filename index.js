@@ -89,6 +89,7 @@ class Field {
                     asteroidImage.style.height = "50px";
                     asteroidImage.style.width = "50px";
                     asteroidImage.classList.add("hole");
+                    asteroidImage.classList.add("animated");
                     asteroidImage.style.position = "absolute";
                     asteroidImage.style.top = y*50 + "px";
                     asteroidImage.style.left = x*50 + "px";
@@ -103,6 +104,7 @@ class Field {
                     asteroidImage.style.width = "50px";
                     asteroidImage.classList.add("altMeteor");
                     asteroidImage.classList.add("hole");
+                    asteroidImage.classList.add("animated");
                     asteroidImage.style.position = "absolute";
                     asteroidImage.style.top = y*50 + "px";
                     asteroidImage.style.left = x*50 + "px";
@@ -120,6 +122,7 @@ class Field {
                     chickenImage.style.left = x*50 + "px";
                     chickenImage.style.zIndex = 1;
                     chickenImage.classList.add("chicken");
+                    chickenImage.classList.add("animated");
                     fieldVisual.append(chickenImage);
                 }
 
@@ -130,6 +133,7 @@ class Field {
                     issImage.style.maxWidth = "50px";
                     issImage.style.transform = "scaleY(-1)";
                     issImage.style.position = "absolute";
+                    issImage.classList.add("animated");
                     issImage.style.top = y*50 + "px";
                     issImage.style.left = x*50 + "px";
                     issImage.style.zIndex = 1;
@@ -141,7 +145,7 @@ class Field {
                 if (this.field[y][x] == man) {
                     let ufoImage = document.createElement('img');
                     ufoImage.src = "resources/images/ufo.gif";
-    
+                    ufoImage.classList.add("animated");
                     ufoImage.style.height = "50px";
                     ufoImage.style.width = "50px";
                     ufoImage.style.position = "absolute";
@@ -173,6 +177,8 @@ class Field {
         document.getElementById("setupDiv").style.display= "block";
         document.getElementById("earth").src = "resources/images/earth.gif";
         document.getElementById("earth").style.display = "none";
+        const titleImgs = document.querySelectorAll('.titleImg');
+        titleImgs.forEach((img) => img.style.opacity = 1);
         lives = 1;
         score = 0;
     }
@@ -501,7 +507,8 @@ class Field {
         let gameField = new Field(Field.fieldFromInput());
         gameField.print();
         gameField.generateBrowserField();
-
+        const titleImgs = document.querySelectorAll('.titleImg');
+        titleImgs.forEach((img) => img.style.opacity = 0);
         document.getElementById("statusBar").style.display = "block";
         document.getElementById("setupDiv").style.display = "none";
         document.getElementById("announcementDiv").style.display = "inline-block";
