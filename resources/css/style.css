@@ -2,12 +2,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 
-body {
+body, html {
     font-family: 'Yusei Magic', sans-serif;
     background-image: url("https://media.giphy.com/media/aRZ4vTsHnyW6A/source.gif");
     background-color: black;
     color: white;
     text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
@@ -19,6 +21,12 @@ h1 {
 
 #setupDiv {
     text-align: center;
+}
+
+#setupDiv {
+    max-width: 800px;
+    padding: 20px;
+    margin: auto;
 }
 
 #anContainer {
@@ -89,11 +97,20 @@ footer {
     opacity: 0.8;
     display: flex;
     justify-content: space-between;
+    margin: 0;
+    padding: 20px;
+}
+
+#attributions {
+    text-align: left;
+}
+
+#copyright {
+    text-align: right;
 }
 
 footer p {
     padding: 0;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin: 0;
 }
 
