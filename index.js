@@ -171,6 +171,8 @@ class Field {
         if (fieldDiv.hasChildNodes()) {
             fieldDiv.removeChild(fieldDiv.firstChild);
         }
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
         document.getElementById("announcementDiv").style.display = "none";
         document.getElementById("statusBar").style.display = "none";
         document.getElementById("statusBar").style.color = "hotpink";
