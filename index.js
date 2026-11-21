@@ -75,6 +75,8 @@ class Field {
         fieldVisual.style.borderRadius = "10px";
         fieldVisual.style.position = "relative";
         fieldVisual.id = "fieldVisual";
+        fieldVisual.setAttribute("role", "group");
+        fieldVisual.setAttribute("aria-label", "Game board. Use the arrow keys to move, or B to hold still.");
         
         fieldVisual.addEventListener('click', Field.manageMovement);
         fieldDiv.append(fieldVisual);
@@ -86,6 +88,7 @@ class Field {
                 if (this.field[y][x] == hole) {
                     let asteroidImage = document.createElement('img');
                     asteroidImage.src = "resources/images/asteroid.gif";
+                    asteroidImage.alt = "Asteroid";
                     asteroidImage.style.height = "50px";
                     asteroidImage.style.width = "50px";
                     asteroidImage.classList.add("hole");
@@ -100,6 +103,7 @@ class Field {
                 if (this.field[y][x] == altMeteor) {
                     let asteroidImage = document.createElement('img');
                     asteroidImage.src = "resources/images/asteroid2.gif";
+                    asteroidImage.alt = "Asteroid";
                     asteroidImage.style.height = "50px";
                     asteroidImage.style.width = "50px";
                     asteroidImage.classList.add("altMeteor");
@@ -115,6 +119,7 @@ class Field {
                 if (this.field[y][x] == chicken) {
                     let chickenImage = document.createElement('img');
                     chickenImage.src = "resources/images/bolt.gif";
+                    chickenImage.alt = "Lightning bolt";
                     chickenImage.style.height = "50px";
                     chickenImage.style.width = "50px";
                     chickenImage.style.position = "absolute";
@@ -129,6 +134,7 @@ class Field {
                 if (this.field[y][x] == hat) {
                     let issImage = document.createElement('img');
                     issImage.src = "resources/images/astronaut.gif";
+                    issImage.alt = "Astronaut";
                     issImage.style.maxHeight = "50px";
                     issImage.style.maxWidth = "50px";
                     issImage.style.transform = "scaleY(-1)";
@@ -145,6 +151,7 @@ class Field {
                 if (this.field[y][x] == man) {
                     let ufoImage = document.createElement('img');
                     ufoImage.src = "resources/images/ufo.gif";
+                    ufoImage.alt = "Your UFO";
                     ufoImage.classList.add("animated");
                     ufoImage.style.height = "50px";
                     ufoImage.style.width = "50px";
@@ -179,6 +186,7 @@ class Field {
         document.getElementById("setupDiv").style.display= "block";
         document.getElementById("earth").src = "resources/images/earth.gif";
         document.getElementById("earth").style.display = "none";
+        document.getElementById("start").focus();
         const titleImgs = document.querySelectorAll('.titleImg');
         titleImgs.forEach((img) => img.style.opacity = 1);
         lives = 1;
@@ -194,6 +202,7 @@ class Field {
         resetButton.addEventListener('click', Field.reset);
         document.getElementById("announcementDiv").style.display = "inline-block";
         document.getElementById("announcementDiv").append(resetButton);
+        resetButton.focus();
     }
 
     
@@ -421,7 +430,17 @@ class Field {
         }
     }
 
+    // The board can be taller than the screen, and the arrow keys no longer
+    // scroll the page, so follow the ship as it moves.
+    static keepShipInView() {
+        const ship = document.getElementById("man");
+        if (ship && typeof ship.scrollIntoView === "function") {
+            ship.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
+        }
+    }
+
     static checkPos() {
+        Field.keepShipInView();
         score -= 25;
         Field.updateElementCoords("hole", "left");
         Field.updateElementCoords("altMeteor", "up");
@@ -521,6 +540,7 @@ class Field {
         okButton.value = "OK!";
         okButton.addEventListener('click', Field.hideAnnouncementDiv);
         document.getElementById("announcementDiv").append(okButton);
+        okButton.focus();
     }
     
 }
@@ -528,6 +548,11 @@ class Field {
 
 document.getElementById("start").addEventListener("click", Field.startGame);
 let modifier = 50;
+// Stop the arrow keys from also scrolling the page while a game is on screen.
+window.addEventListener("keydown", (event) => {
+    if (!document.getElementById("man")) return;
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) event.preventDefault();
+});
 window.addEventListener("keyup", (event) => {
     const { style } = document.getElementById("man"); 
     switch (event.key) {

@@ -56,7 +56,7 @@ h1 {
     margin: 0 auto;
     font-family: 'Press Start 2P', cursive;
     max-width: 250px;
-    color: hotpink;
+    color: #8b005d;
     text-shadow: .5px .5px silver;
     background-color: rgba(127, 255, 212, 0.815);
     padding: 3em;
@@ -140,3 +140,20 @@ footer p {
     margin: 0;
 }
 
+
+/* Clear keyboard focus on every interactive element. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid #ffd400;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body, html {
+        scroll-behavior: auto;
+    }
+    .titleDiv img {
+        transition: none;
+    }
+}
