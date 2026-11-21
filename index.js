@@ -538,3 +538,5 @@ window.addEventListener("keyup", (event) => {
         case 'b': Field.hold(); break;
     }
 });
+
+if (typeof module !== "undefined") module.exports = { Field };
