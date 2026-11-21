@@ -3,7 +3,7 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,10 +14,11 @@
         
     </head>
     <body>
+        <main>
         <div class="titleDiv">
-            <img class="titleImg" src='./resources/images/ufo.gif' alt="ufo" height="80px" />
+            <img class="titleImg" src='./resources/images/ufo.gif' alt="" height="80px" />
             <h1>Meteor Jumper</h1>
-            <img class="titleImg" src='./resources/images/astronaut.gif' alt="ufo" height="80px" style='transform: rotate(220deg)' />
+            <img class="titleImg" src='./resources/images/astronaut.gif' alt="" height="80px" style='transform: rotate(220deg)' />
         </div>
         
         <div id="setupDiv">
@@ -27,9 +28,9 @@
             <input type="number" id="height" value="20" max="40" min="7"/>
             <label for="width" value="width">Width</label>
             <input type="number" id="width" value="10" max="40" min="7"/>
-            <p>Please enter a difficulty level (1-15)</p>
+            <p id="difficulty-hint">Please enter a difficulty level (1-15)</p>
             <label for="difficulty" value="difficulty">Difficulty</label>
-            <input type="number" id="difficulty" value="7" min="1" max="15" />
+            <input type="number" id="difficulty" value="7" min="1" max="15" aria-describedby="difficulty-hint" />
             <br />
             <button id="start">Start</button>
             <p>On a computer, move the spaceman with the arrow keys. Use the B key to hold still while the asteroids advance.</p>
@@ -37,14 +38,14 @@
             <p>You can squeeze between diagonally adjacent asteroids. Flying into an adjecent oncoming asteroid allows you to jump it! Catch a lightning bolt to gain a life!</p>
         </div>
         <div id="anContainer">
-            <div id="announcementDiv">
+            <div id="announcementDiv" role="status" aria-live="polite">
             </div>
         </div>
-        <div id="statusBar"></div>
-        </div>
+        <div id="statusBar" role="status" aria-live="polite"></div>
         <div id="fieldDiv"></div>
-        <img id="earth" src="resources/images/earth.gif" />
- 
+        <img id="earth" src="resources/images/earth.gif" alt="" />
+        </main>
+
         <footer>
             <div id="attributions">
                 <p>Background GIFs by <a href="https://giphy.com/xponentialdesign/">XPONENTIALDESIGN</a> <a href="https://giphy.com/gifs/night-aRZ4vTsHnyW6A">via GIPHY</a></p>
@@ -56,7 +57,7 @@
                 <p>Sound effects via <a href="freesoundlibrary.com">freesoundlibrary.com</a></p>
             </div>
             <div id="copyright">
-                <p>A Project by <a href="https://langportfolio.herokuapp.com/" target="_blank" rel="noreferrer">Patrick Lang</a></h3></p>
+                <p>A Project by <a href="https://patricklangcoding.onrender.com/" target="_blank" rel="noreferrer">Patrick Lang</a></p>
                 <p>&copy; 2021</p>
             </div>
         </footer>

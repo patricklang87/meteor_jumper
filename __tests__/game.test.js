@@ -33,7 +33,7 @@ beforeEach(() => {
   jest.spyOn(Math, 'random').mockReturnValue(0.99);
   const addEventListener = window.addEventListener.bind(window);
   jest.spyOn(window, 'addEventListener').mockImplementation((type, listener, options) => {
-    if (type === 'keyup') keyListeners.push(listener);
+    if (type === 'keyup' || type === 'keydown') keyListeners.push([type, listener]);
     addEventListener(type, listener, options);
   });
   jest.isolateModules(() => {
@@ -42,7 +42,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  keyListeners.forEach((listener) => window.removeEventListener('keyup', listener));
+  keyListeners.forEach(([type, listener]) => window.removeEventListener(type, listener));
   keyListeners = [];
   jest.useRealTimers();
   jest.restoreAllMocks();
@@ -156,5 +156,49 @@ describe('playing a turn', () => {
     document.querySelector('input[value="Play Again"]').click();
     expect(document.getElementById('fieldDiv').children).toHaveLength(0);
     expect(document.getElementById('setupDiv').style.display).toBe('block');
+  });
+});
+
+describe('accessibility', () => {
+  it('declares the page language and a main landmark', () => {
+    // document.documentElement.innerHTML drops the <html> tag's own attributes, so read the source.
+    expect(html).toMatch(/<html lang="en">/);
+    expect(document.querySelector('main')).not.toBeNull();
+  });
+
+  it('gives every board piece a text alternative', () => {
+    startBoard(['XFO', 'FAC', 'FHF']);
+    const alts = [...document.querySelectorAll('#fieldVisual img')].map((img) => img.alt).sort();
+    expect(alts).toEqual(['Asteroid', 'Asteroid', 'Astronaut', 'Lightning bolt', 'Your UFO']);
+    expect(document.getElementById('fieldVisual').getAttribute('aria-label')).toMatch(/arrow keys/);
+  });
+
+  it('announces game messages and lives through live regions', () => {
+    expect(document.getElementById('announcementDiv').getAttribute('aria-live')).toBe('polite');
+    expect(document.getElementById('statusBar').getAttribute('aria-live')).toBe('polite');
+  });
+
+  it('moves focus to the button that continues the game', () => {
+    document.getElementById('start').click();
+    expect(document.activeElement.value).toBe('OK!');
+
+    document.getElementById('fieldDiv').innerHTML = '';
+    startBoard(['XFF', 'HFF', 'FFF']);
+    press('ArrowDown');
+    expect(document.activeElement.value).toBe('Play Again');
+
+    document.activeElement.click();
+    expect(document.activeElement.id).toBe('start');
+  });
+
+  it('stops the arrow keys from scrolling the page during a game', () => {
+    const before = new KeyboardEvent('keydown', { key: 'ArrowDown', cancelable: true });
+    window.dispatchEvent(before);
+    expect(before.defaultPrevented).toBe(false); // no game on screen yet
+
+    startBoard(['XFF', 'FFF', 'FFH']);
+    const during = new KeyboardEvent('keydown', { key: 'ArrowDown', cancelable: true });
+    window.dispatchEvent(during);
+    expect(during.defaultPrevented).toBe(true);
   });
 });
